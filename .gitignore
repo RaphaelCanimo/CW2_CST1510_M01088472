@@ -2,4 +2,6 @@
 .vscode
 Week08_LAB_Hybrid.ipynb
 auth.py
+app/__pycache__
+app/data/__pycache__
 app/services/__pycache__
