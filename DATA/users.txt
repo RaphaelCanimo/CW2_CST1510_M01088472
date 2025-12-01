@@ -1,1 +1,1 @@
-alice, $2b$12$AlcX5HuGDMK2KerWzOMUge4voSMeh9RXfhOWvkEu4xmtUememG5kq
+alice, $2b$12$AlcX5HuGDMK2KerWzOMUge4voSMeh9RXfhOWvkEu4xmtUememG5kq, user

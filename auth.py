@@ -78,7 +78,7 @@ def login_user(username, password):
         for line in f.readlines():
             user, hash = line.strip().split(',', 1)
 
-            # XXX To remove any leading whitespace, i.e. \n
+            # To remove any leading whitespace, i.e. \n
             user = user.strip()
             hash = hash.strip()
 
