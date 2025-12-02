@@ -9,35 +9,53 @@ def main():
     print("Week 8: Database Demo")
     print("=" * 60)
 
-    # 1. Setup database
+    # # 1. Setup database
+    # conn = connect_database()
+    # create_all_tables(conn)
+
+    # # 2. Migrate users
+    # migrate_users_from_file(conn)
+
+    # # 3. Test authentication
+    # success, msg = register_user("alice", "SecurePass123!", "analyst")
+    # print(msg)
+
+    # success, msg = login_user("alice", "SecurePass123!")
+    # print(msg)
+
+    # # 4. Test CRUD
+    # incident_id = insert_incident(
+    #     "2024-11-05",
+    #     "Phishing",
+    #     "High",
+    #     "Open",
+    #     "Suspicious email detected",
+    #     "alice"
+    # )
+    # print(f"Created incident #{incident_id}")
+
+    # # 5. Query data
+    # df = get_all_incidents()
+    # print(f"Total incidents: {len(df)}")
+
+    # conn.close()
+
+    # Verify users were migrated
     conn = connect_database()
-    create_all_tables(conn)
+    cursor = conn.cursor()
+
+    # Query all users
+    cursor.execute("SELECT id, username, role FROM users")
+    users = cursor.fetchall()
+
+    print(" Users in database:")
+    print(f"{'ID':<5} {'Username':<15} {'Role':<10}")
+    print("-" * 35)
+    for user in users:
+        print(f"{user[0]:<5} {user[1]:<15} {user[2]:<10}")
+
+    print(f"\nTotal users: {len(users)}")
     conn.close()
-
-    # 2. Migrate users
-    migrate_users_from_file(conn)
-
-    # 3. Test authentication
-    success, msg = register_user("alice", "SecurePass123!", "analyst")
-    print(msg)
-
-    success, msg = login_user("alice", "SecurePass123!")
-    print(msg)
-
-    # 4. Test CRUD
-    incident_id = insert_incident(
-        "2024-11-05",
-        "Phishing",
-        "High",
-        "Open",
-        "Suspicious email detected",
-        "alice"
-    )
-    print(f"Created incident #{incident_id}")
-
-    # 5. Query data
-    df = get_all_incidents()
-    print(f"Total incidents: {len(df)}")
 
 
 if __name__ == "__main__":

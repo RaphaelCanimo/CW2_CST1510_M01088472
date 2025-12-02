@@ -11,6 +11,7 @@ def create_users_table(conn):
         )
     """)
     conn.commit()
+    print("✅ Users table created successfully!")
 
 
 def create_cyber_incidents_table(conn):
@@ -29,6 +30,7 @@ def create_cyber_incidents_table(conn):
         )
     """)
     conn.commit()
+    print("✅ Cyber Incidents table created successfully!")
 
 
 def create_datasets_metadata_table(conn):
@@ -47,6 +49,7 @@ def create_datasets_metadata_table(conn):
         )
     """)
     conn.commit()
+    print("✅ Datasets Metadata table created successfully!")
 
 
 def create_it_tickets_table(conn):
@@ -68,6 +71,7 @@ def create_it_tickets_table(conn):
         )
     """)
     conn.commit()
+    print("✅ IT Tickets table created successfully!")
 
 
 def create_all_tables(conn):

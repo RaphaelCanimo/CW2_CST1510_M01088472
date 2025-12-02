@@ -1,6 +1,7 @@
 .DS_Store
 .vscode
 Week08_LAB_Hybrid.ipynb
+Week08_LAB_Hybrid.md
 auth.py
 app/__pycache__
 app/data/__pycache__

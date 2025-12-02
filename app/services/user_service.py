@@ -5,7 +5,8 @@ from app.data.db import connect_database
 from app.data.users import get_user_by_username, insert_user
 from app.data.schema import create_users_table
 
-DATA = Path("../DATA")
+DATA = Path("DATA")
+
 
 def register_user(username, password, role="user"):
     """
@@ -90,7 +91,6 @@ def migrate_users_from_file(conn, filepath=DATA / "users.txt"):
         print(f"⚠️  File not found: {filepath}")
         print("   No users to migrate.")
         return
-
     cursor = conn.cursor()
     migrated_count = 0
 
