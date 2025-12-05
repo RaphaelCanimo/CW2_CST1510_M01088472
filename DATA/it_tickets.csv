@@ -1,0 +1,101 @@
+id,ticket_id,priority,status,category,subject,description,created_date,resolved_date,assigned_to,created_at
+1,TKT-1001,Critical,Resolved,Software,Issue 1,Description for issue number 1.,10/08/2020,19/02/2022,Frank,02/12/2025 17:55
+2,TKT-1002,High,Resolved,Hardware,Issue 2,Description for issue number 2.,15/03/2020,15/07/2024,Evan,02/12/2025 17:55
+3,TKT-1003,Low,In Progress,Network,Issue 3,Description for issue number 3.,04/01/2022,14/08/2023,Charlie,02/12/2025 17:55
+4,TKT-1004,High,Open,Security,Issue 4,Description for issue number 4.,31/03/2023,13/04/2020,Charlie,02/12/2025 17:55
+5,TKT-1005,Critical,Open,Network,Issue 5,Description for issue number 5.,14/05/2023,,Diana,02/12/2025 17:55
+6,TKT-1006,High,Resolved,Hardware,Issue 6,Description for issue number 6.,12/07/2021,,Evan,02/12/2025 17:55
+7,TKT-1007,High,Open,Network,Issue 7,Description for issue number 7.,10/05/2023,02/03/2022,Charlie,02/12/2025 17:55
+8,TKT-1008,High,Resolved,Hardware,Issue 8,Description for issue number 8.,11/06/2022,,Evan,02/12/2025 17:55
+9,TKT-1009,High,In Progress,Network,Issue 9,Description for issue number 9.,14/02/2024,30/09/2023,Evan,02/12/2025 17:55
+10,TKT-1010,High,Closed,Access Request,Issue 10,Description for issue number 10.,28/12/2024,18/12/2024,Bob,02/12/2025 17:55
+11,TKT-1011,High,Closed,Software,Issue 11,Description for issue number 11.,24/06/2024,,N/A,02/12/2025 17:55
+12,TKT-1012,High,Resolved,Hardware,Issue 12,Description for issue number 12.,01/06/2020,31/01/2022,Alice,02/12/2025 17:55
+13,TKT-1013,Critical,Open,Hardware,Issue 13,Description for issue number 13.,18/04/2022,,N/A,02/12/2025 17:55
+14,TKT-1014,Low,Closed,Security,Issue 14,Description for issue number 14.,22/12/2022,,Frank,02/12/2025 17:55
+15,TKT-1015,High,Open,Security,Issue 15,Description for issue number 15.,05/02/2021,11/02/2024,Evan,02/12/2025 17:55
+16,TKT-1016,High,Closed,Network,Issue 16,Description for issue number 16.,16/08/2022,10/11/2021,Frank,02/12/2025 17:55
+17,TKT-1017,Medium,In Progress,Network,Issue 17,Description for issue number 17.,18/09/2021,16/03/2024,Charlie,02/12/2025 17:55
+18,TKT-1018,High,Open,Software,Issue 18,Description for issue number 18.,03/07/2020,,Frank,02/12/2025 17:55
+19,TKT-1019,High,Closed,Security,Issue 19,Description for issue number 19.,08/09/2022,19/02/2022,Diana,02/12/2025 17:55
+20,TKT-1020,Low,Open,Network,Issue 20,Description for issue number 20.,01/12/2023,,Alice,02/12/2025 17:55
+21,TKT-1021,Low,In Progress,Software,Issue 21,Description for issue number 21.,30/06/2020,13/03/2020,N/A,02/12/2025 17:55
+22,TKT-1022,Low,Resolved,Security,Issue 22,Description for issue number 22.,20/11/2024,20/11/2023,N/A,02/12/2025 17:55
+23,TKT-1023,Low,Resolved,Software,Issue 23,Description for issue number 23.,14/05/2021,,Bob,02/12/2025 17:55
+24,TKT-1024,High,Closed,Security,Issue 24,Description for issue number 24.,01/03/2021,05/09/2022,Bob,02/12/2025 17:55
+25,TKT-1025,Medium,Closed,Network,Issue 25,Description for issue number 25.,19/01/2022,,Diana,02/12/2025 17:55
+26,TKT-1026,Critical,Resolved,Network,Issue 26,Description for issue number 26.,15/10/2023,,Charlie,02/12/2025 17:55
+27,TKT-1027,Low,In Progress,Software,Issue 27,Description for issue number 27.,13/05/2022,22/12/2022,Bob,02/12/2025 17:55
+28,TKT-1028,High,Resolved,Hardware,Issue 28,Description for issue number 28.,17/02/2024,,Frank,02/12/2025 17:55
+29,TKT-1029,Critical,Resolved,Software,Issue 29,Description for issue number 29.,03/09/2024,,Charlie,02/12/2025 17:55
+30,TKT-1030,High,Closed,Software,Issue 30,Description for issue number 30.,14/04/2023,,Charlie,02/12/2025 17:55
+31,TKT-1031,Low,Closed,Security,Issue 31,Description for issue number 31.,11/09/2023,,Evan,02/12/2025 17:55
+32,TKT-1032,Critical,Open,Access Request,Issue 32,Description for issue number 32.,11/10/2023,,Diana,02/12/2025 17:55
+33,TKT-1033,High,In Progress,Software,Issue 33,Description for issue number 33.,17/05/2023,22/04/2022,Diana,02/12/2025 17:55
+34,TKT-1034,Low,Closed,Network,Issue 34,Description for issue number 34.,08/02/2023,,Alice,02/12/2025 17:55
+35,TKT-1035,High,Resolved,Access Request,Issue 35,Description for issue number 35.,23/04/2023,02/05/2024,Diana,02/12/2025 17:55
+36,TKT-1036,Critical,Resolved,Security,Issue 36,Description for issue number 36.,10/04/2022,07/06/2021,N/A,02/12/2025 17:55
+37,TKT-1037,Low,In Progress,Hardware,Issue 37,Description for issue number 37.,21/07/2023,18/01/2024,Evan,02/12/2025 17:55
+38,TKT-1038,High,Resolved,Access Request,Issue 38,Description for issue number 38.,17/01/2020,,Charlie,02/12/2025 17:55
+39,TKT-1039,Critical,In Progress,Software,Issue 39,Description for issue number 39.,03/11/2024,17/10/2024,Frank,02/12/2025 17:55
+40,TKT-1040,Medium,Resolved,Access Request,Issue 40,Description for issue number 40.,30/12/2022,,Charlie,02/12/2025 17:55
+41,TKT-1041,High,In Progress,Security,Issue 41,Description for issue number 41.,24/07/2020,25/05/2023,Alice,02/12/2025 17:55
+42,TKT-1042,Low,Open,Access Request,Issue 42,Description for issue number 42.,26/07/2022,06/05/2022,Frank,02/12/2025 17:55
+43,TKT-1043,High,Closed,Software,Issue 43,Description for issue number 43.,16/12/2020,22/01/2022,Charlie,02/12/2025 17:55
+44,TKT-1044,Low,In Progress,Hardware,Issue 44,Description for issue number 44.,01/12/2023,26/07/2020,Diana,02/12/2025 17:55
+45,TKT-1045,High,In Progress,Hardware,Issue 45,Description for issue number 45.,19/10/2022,21/04/2022,N/A,02/12/2025 17:55
+46,TKT-1046,Medium,Resolved,Hardware,Issue 46,Description for issue number 46.,09/01/2022,04/06/2024,Charlie,02/12/2025 17:55
+47,TKT-1047,Critical,In Progress,Security,Issue 47,Description for issue number 47.,31/01/2021,28/03/2024,N/A,02/12/2025 17:55
+48,TKT-1048,High,Open,Security,Issue 48,Description for issue number 48.,27/11/2023,,Evan,02/12/2025 17:55
+49,TKT-1049,Critical,Open,Access Request,Issue 49,Description for issue number 49.,24/08/2023,07/12/2021,Frank,02/12/2025 17:55
+50,TKT-1050,Critical,Open,Network,Issue 50,Description for issue number 50.,01/03/2022,,Frank,02/12/2025 17:55
+51,TKT-1051,Critical,Closed,Network,Issue 51,Description for issue number 51.,29/01/2020,,Frank,02/12/2025 17:55
+52,TKT-1052,High,Closed,Access Request,Issue 52,Description for issue number 52.,07/07/2021,,Frank,02/12/2025 17:55
+53,TKT-1053,Medium,Closed,Network,Issue 53,Description for issue number 53.,21/11/2024,,Charlie,02/12/2025 17:55
+54,TKT-1054,Critical,In Progress,Network,Issue 54,Description for issue number 54.,28/08/2024,20/08/2020,Frank,02/12/2025 17:55
+55,TKT-1055,Medium,Closed,Security,Issue 55,Description for issue number 55.,06/09/2024,23/01/2024,Charlie,02/12/2025 17:55
+56,TKT-1056,High,Open,Security,Issue 56,Description for issue number 56.,21/10/2020,,Diana,02/12/2025 17:55
+57,TKT-1057,Low,Open,Network,Issue 57,Description for issue number 57.,24/08/2022,01/08/2023,N/A,02/12/2025 17:55
+58,TKT-1058,Low,Resolved,Network,Issue 58,Description for issue number 58.,08/09/2023,,N/A,02/12/2025 17:55
+59,TKT-1059,Low,Open,Network,Issue 59,Description for issue number 59.,21/09/2022,28/12/2021,Alice,02/12/2025 17:55
+60,TKT-1060,Critical,Resolved,Access Request,Issue 60,Description for issue number 60.,21/11/2022,,Evan,02/12/2025 17:55
+61,TKT-1061,Medium,Open,Software,Issue 61,Description for issue number 61.,29/02/2020,03/05/2020,Alice,02/12/2025 17:55
+62,TKT-1062,Critical,Resolved,Hardware,Issue 62,Description for issue number 62.,06/08/2022,,Diana,02/12/2025 17:55
+63,TKT-1063,Low,Resolved,Access Request,Issue 63,Description for issue number 63.,10/09/2021,17/10/2021,Alice,02/12/2025 17:55
+64,TKT-1064,High,Resolved,Access Request,Issue 64,Description for issue number 64.,02/07/2022,08/10/2021,Diana,02/12/2025 17:55
+65,TKT-1065,High,Closed,Hardware,Issue 65,Description for issue number 65.,03/12/2023,09/03/2024,Diana,02/12/2025 17:55
+66,TKT-1066,Low,In Progress,Security,Issue 66,Description for issue number 66.,27/04/2022,,Charlie,02/12/2025 17:55
+67,TKT-1067,Low,In Progress,Network,Issue 67,Description for issue number 67.,03/10/2023,,N/A,02/12/2025 17:55
+68,TKT-1068,High,Open,Software,Issue 68,Description for issue number 68.,26/07/2024,27/02/2022,Diana,02/12/2025 17:55
+69,TKT-1069,Medium,Open,Access Request,Issue 69,Description for issue number 69.,21/07/2022,10/05/2024,Evan,02/12/2025 17:55
+70,TKT-1070,High,Resolved,Network,Issue 70,Description for issue number 70.,18/10/2023,,Evan,02/12/2025 17:55
+71,TKT-1071,Critical,Closed,Network,Issue 71,Description for issue number 71.,14/08/2020,18/01/2023,N/A,02/12/2025 17:55
+72,TKT-1072,Critical,Closed,Network,Issue 72,Description for issue number 72.,27/11/2022,,Frank,02/12/2025 17:55
+73,TKT-1073,High,In Progress,Hardware,Issue 73,Description for issue number 73.,09/07/2023,26/07/2020,Frank,02/12/2025 17:55
+74,TKT-1074,Low,Resolved,Software,Issue 74,Description for issue number 74.,22/07/2021,,Evan,02/12/2025 17:55
+75,TKT-1075,High,Closed,Hardware,Issue 75,Description for issue number 75.,23/05/2024,13/03/2023,N/A,02/12/2025 17:55
+76,TKT-1076,High,Open,Security,Issue 76,Description for issue number 76.,26/07/2022,14/05/2021,Diana,02/12/2025 17:55
+77,TKT-1077,Low,Resolved,Software,Issue 77,Description for issue number 77.,23/08/2020,14/09/2021,Bob,02/12/2025 17:55
+78,TKT-1078,Critical,Closed,Hardware,Issue 78,Description for issue number 78.,09/02/2020,,Evan,02/12/2025 17:55
+79,TKT-1079,High,Open,Network,Issue 79,Description for issue number 79.,21/07/2020,,N/A,02/12/2025 17:55
+80,TKT-1080,Medium,Resolved,Hardware,Issue 80,Description for issue number 80.,04/08/2022,07/08/2020,Alice,02/12/2025 17:55
+81,TKT-1081,Critical,In Progress,Software,Issue 81,Description for issue number 81.,12/05/2023,,Frank,02/12/2025 17:55
+82,TKT-1082,Low,In Progress,Hardware,Issue 82,Description for issue number 82.,04/08/2022,,Frank,02/12/2025 17:55
+83,TKT-1083,Low,Open,Access Request,Issue 83,Description for issue number 83.,06/07/2024,05/09/2020,Charlie,02/12/2025 17:55
+84,TKT-1084,Low,In Progress,Access Request,Issue 84,Description for issue number 84.,22/09/2022,,Diana,02/12/2025 17:55
+85,TKT-1085,Critical,Open,Network,Issue 85,Description for issue number 85.,23/12/2021,22/10/2022,Alice,02/12/2025 17:55
+86,TKT-1086,Medium,Closed,Access Request,Issue 86,Description for issue number 86.,13/04/2022,26/09/2021,Diana,02/12/2025 17:55
+87,TKT-1087,Medium,Open,Hardware,Issue 87,Description for issue number 87.,18/10/2024,21/08/2020,Diana,02/12/2025 17:55
+88,TKT-1088,High,Open,Network,Issue 88,Description for issue number 88.,23/12/2020,17/03/2020,Diana,02/12/2025 17:55
+89,TKT-1089,High,Closed,Network,Issue 89,Description for issue number 89.,26/12/2023,,N/A,02/12/2025 17:55
+90,TKT-1090,Critical,Closed,Network,Issue 90,Description for issue number 90.,18/07/2024,10/10/2021,Frank,02/12/2025 17:55
+91,TKT-1091,Medium,Closed,Access Request,Issue 91,Description for issue number 91.,07/05/2024,,Diana,02/12/2025 17:55
+92,TKT-1092,Critical,Open,Hardware,Issue 92,Description for issue number 92.,07/11/2024,17/09/2022,Charlie,02/12/2025 17:55
+93,TKT-1093,Low,Resolved,Hardware,Issue 93,Description for issue number 93.,10/01/2022,,Evan,02/12/2025 17:55
+94,TKT-1094,High,Resolved,Security,Issue 94,Description for issue number 94.,03/02/2024,,Diana,02/12/2025 17:55
+95,TKT-1095,Critical,Open,Software,Issue 95,Description for issue number 95.,28/04/2021,,Evan,02/12/2025 17:55
+96,TKT-1096,Low,Closed,Access Request,Issue 96,Description for issue number 96.,06/02/2020,10/04/2020,N/A,02/12/2025 17:55
+97,TKT-1097,High,In Progress,Hardware,Issue 97,Description for issue number 97.,16/04/2023,23/04/2024,Diana,02/12/2025 17:55
+98,TKT-1098,High,Open,Network,Issue 98,Description for issue number 98.,29/01/2024,20/07/2024,Evan,02/12/2025 17:55
+99,TKT-1099,Critical,Resolved,Network,Issue 99,Description for issue number 99.,12/04/2022,,Alice,02/12/2025 17:55
+100,TKT-1100,Medium,Closed,Hardware,Issue 100,Description for issue number 100.,20/12/2020,25/01/2020,N/A,02/12/2025 17:55
