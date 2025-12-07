@@ -91,6 +91,7 @@ def migrate_users_from_file(conn, filepath=DATA / "users.txt"):
         print(f"⚠️  File not found: {filepath}")
         print("   No users to migrate.")
         return
+    conn = connect_database()
     cursor = conn.cursor()
     migrated_count = 0
 

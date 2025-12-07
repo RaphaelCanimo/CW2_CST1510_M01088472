@@ -44,7 +44,7 @@ def create_datasets_metadata_table(conn):
             source TEXT,
             last_updated TEXT,
             record_count INTEGER,
-            file_size_mb REAL
+            file_size_mb REAL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)

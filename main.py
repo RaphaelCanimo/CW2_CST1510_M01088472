@@ -1,38 +1,12 @@
-import pandas as pd
-from pathlib import Path
-from app.data.db import connect_database
+from app.data.db import connect_database, load_all_csv_data
 from app.data.schema import create_all_tables
 from app.services.user_service import register_user, login_user, migrate_users_from_file
-from app.data.incidents import insert_incident, get_all_incidents
+from app.data.incidents import insert_incident, get_all_incidents, get_incidents_by_type_count, get_high_severity_by_status, update_incident_status, delete_incident
+import pandas as pd
+from pathlib import Path
 
 DATA_DIR = Path("DATA")
 DB_PATH = DATA_DIR / "intelligence_platform.db"
-
-def load_csv_to_table(conn, csv_path, table_name):
-    """
-    Load a CSV file into a database table using pandas.
-
-    Args:
-        conn: Database connection
-        csv_path: Path to CSV file
-        table_name: Name of the target table
-
-    Returns:
-        int: Number of rows loaded
-    """
-    csv_path = Path(csv_path)
-
-    if not csv_path.exists():
-        print(f"CSV file not found: {csv_path}")
-        return 0
-
-    df = pd.read_csv(csv_path)
-    row_count = len(df)
-
-    df.to_sql(name=table_name, con=conn, if_exists='append', index=False)
-
-    print(f"Loaded {row_count} rows from {csv_path.name} into {table_name}")
-    return row_count
 
 
 def setup_database_complete():
@@ -83,68 +57,179 @@ def setup_database_complete():
 
     conn.close()
 
+
+def run_comprehensive_tests():
+    """
+    Run comprehensive tests on your database.
+    """
     print("\n" + "="*60)
-    print(" DATABASE SETUP COMPLETE!")
+    print("🧪 RUNNING COMPREHENSIVE TESTS")
     print("="*60)
-    print(f"\n Database location: {DB_PATH.resolve()}")
-    print("\nYou're ready for Week 9 (Streamlit web interface)!")
 
+    conn = connect_database()
 
-# Run the complete setup
-setup_database_complete()
+    # Test 1: Authentication
+    print("\n[TEST 1] Authentication")
+    success, msg = register_user("test_user", "TestPass123!", "user")
+    print(f"  Register: {'✅' if success else '❌'} {msg}")
+
+    success, msg = login_user("test_user", "TestPass123!")
+    print(f"  Login:    {'✅' if success else '❌'} {msg}")
+
+    # Test 2: CRUD Operations
+    print("\n[TEST 2] CRUD Operations")
+
+    # Create
+    test_id = insert_incident(
+        conn,
+        "2024-11-05",
+        "Test Incident",
+        "Low",
+        "Open",
+        "This is a test incident",
+        "test_user"
+    )
+    print(f"  Create: ✅ Incident #{test_id} created")
+
+    # Read
+    df = pd.read_sql_query(
+        "SELECT * FROM cyber_incidents WHERE id = ?",
+        conn,
+        params=(test_id,)
+    )
+    print(f"  Read:    Found incident #{test_id}")
+
+    # Update
+    update_incident_status(conn, test_id, "Resolved")
+    print(f"  Update:  Status updated")
+
+    # Delete
+    delete_incident(conn, test_id)
+    print(f"  Delete:  Incident deleted")
+
+    # Test 3: Analytical Queries
+    print("\n[TEST 3] Analytical Queries")
+
+    df_by_type = get_incidents_by_type_count(conn)
+    print(f"  By Type:     Found {len(df_by_type)} incident types")
+
+    df_high = get_high_severity_by_status(conn)
+    print(f"  High Severity: Found {len(df_high)} status categories")
+
+    conn.close()
+
+    print("\n" + "="*60)
+    print("✅ ALL TESTS PASSED!")
+    print("="*60)
+
+    """Test all CRUD operations on incidents."""
+    print("\n  Testing CRUD operations...")
+
+    conn = connect_database()
+
+    # CREATE
+    test_id = insert_incident(
+        conn,
+        "2024-12-05",
+        "Test Incident",
+        "Low",
+        "Open",
+        "This is a test incident for CRUD operations",
+        "alice"
+    )
+    print(f"    ✅ CREATE: Incident #{test_id} created")
+
+    # READ
+    df = pd.read_sql_query(
+        "SELECT * FROM cyber_incidents WHERE id = ?",
+        conn,
+        params=(test_id,)
+    )
+    if len(df) > 0:
+        print(f"    ✅ READ: Found incident #{test_id}")
+
+    # UPDATE
+    rows = update_incident_status(conn, test_id, "Resolved")
+    if rows > 0:
+        print(f"    ✅ UPDATE: Status changed to 'Resolved'")
+
+    # DELETE
+    rows = delete_incident(conn, test_id)
+    if rows > 0:
+        print(f"    ✅ DELETE: Incident #{test_id} removed")
+
+    conn.close()
+
 
 def main():
+    """Main demo function - shows all functionality."""
     print("=" * 60)
     print("Week 8: Database Demo")
     print("=" * 60)
+    # 1. Setup database
+    conn = connect_database()
+    create_all_tables(conn)
 
-    # # 1. Setup database
-    # conn = connect_database()
-    # create_all_tables(conn)
+    # 2. Migrate users
+    migrate_users_from_file(conn)
 
-    # # 2. Migrate users
-    # migrate_users_from_file(conn)
+    # 3. Test authentication
+    success, msg = register_user("alice", "SecurePass123!", "analyst")
+    print(msg)
 
-    # # 3. Test authentication
-    # success, msg = register_user("alice", "SecurePass123!", "analyst")
-    # print(msg)
+    success, msg = login_user("alice", "SecurePass123!")
+    print(msg)
 
-    # success, msg = login_user("alice", "SecurePass123!")
-    # print(msg)
+    # 4. Test CRUD
+    incident_id = insert_incident(
+        conn,
+        "2024-11-05",
+        "Phishing",
+        "High",
+        "Open",
+        "Suspicious email detected",
+        "alice"
+    )
+    print(f"Created incident #{incident_id}")
 
-    # # 4. Test CRUD
-    # incident_id = insert_incident(
-    #     "2024-11-05",
-    #     "Phishing",
-    #     "High",
-    #     "Open",
-    #     "Suspicious email detected",
-    #     "alice"
-    # )
-    # print(f"Created incident #{incident_id}")
+    # 5. Query data
+    df = get_all_incidents(conn)
+    print(f"Total incidents: {len(df)}")
 
-    # # 5. Query data
-    # df = get_all_incidents()
-    # print(f"Total incidents: {len(df)}")
+    # 1. Setup database
+    conn = connect_database()
+    create_all_tables(conn)
+    conn.close()
 
-    # conn.close()
+    # 2. Migrate users
+    migrate_users_from_file(conn)
 
-    # # Verify users were migrated
-    # conn = connect_database()
-    # cursor = conn.cursor()
+    # 3. Test authentication
+    success, msg = register_user("alice", "SecurePass123!", "analyst")
+    print(msg)
 
-    # # Query all users
-    # cursor.execute("SELECT id, username, role FROM users")
-    # users = cursor.fetchall()
+    success, msg = login_user("alice", "SecurePass123!")
+    print(msg)
 
-    # print(" Users in database:")
-    # print(f"{'ID':<5} {'Username':<15} {'Role':<10}")
-    # print("-" * 35)
-    # for user in users:
-    #     print(f"{user[0]:<5} {user[1]:<15} {user[2]:<10}")
+    # 4. Test CRUD
+    incident_id = insert_incident(
+        conn,
+        "2024-11-05",
+        "Phishing",
+        "High",
+        "Open",
+        "Suspicious email detected",
+        "alice"
+    )
+    print(f"Created incident #{incident_id}")
 
-    # print(f"\nTotal users: {len(users)}")
-    # conn.close()
+    # 5. Query data
+    df = get_all_incidents(conn)
+    print(f"Total incidents: {len(df)}")
+
+    setup_database_complete()
+
+    run_comprehensive_tests()
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@ import pandas as pd
 from app.data.db import connect_database
 
 
-def insert_dataset(conn, dataset_name, category, source, last_updated, record_count, file_size_mb):
+def insert_dataset(conn, dataset_name, category, source, last_updated, record_count, file_size_mb, created_at):
     """
     Insert a new dataset into the database.
 
@@ -22,9 +22,9 @@ def insert_dataset(conn, dataset_name, category, source, last_updated, record_co
 
     cursor.execute("""
         INSERT INTO datasets_metadata 
-        (dataset_name, category, source, last_updated, record_count, file_size_mb)
-        VALUES (?, ?, ?, ?, ?, ?)
-    """, (dataset_name, category, source, last_updated, record_count, file_size_mb))
+        (dataset_name, category, source, last_updated, record_count, file_size_mb, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    """, (dataset_name, category, source, last_updated, record_count, file_size_mb, created_at))
 
     conn.commit()
     dataset_id = cursor.lastrowid

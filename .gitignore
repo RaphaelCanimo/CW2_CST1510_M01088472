@@ -1,8 +1,11 @@
+# System files
 .DS_Store
-.vscode
-Week08_LAB_Hybrid.ipynb
-Week08_LAB_Hybrid.md
-auth.py
-app/__pycache__
-app/data/__pycache__
-app/services/__pycache__
+
+# Workspace files
+.vscode/
+
+# Python bytecode files and cache directories
+__pycache__/
+
+# Labfiles
+Week08_LAB_Hybrid.*
