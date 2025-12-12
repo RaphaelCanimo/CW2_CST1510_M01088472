@@ -1,11 +1,15 @@
-# System files
+# SECRETS (NOT TO COMMIT)
+.streamlit/
+
+# OS files
 .DS_Store
 
 # Workspace files
 .vscode/
 
-# Python bytecode files and cache directories
+# Python bytecode and cache
 __pycache__/
+*.pyc
 
-# Labfiles
+# Lab files
 Week08_LAB_Hybrid.*

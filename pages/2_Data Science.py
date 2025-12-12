@@ -1,13 +1,8 @@
+from openai import OpenAI
 import streamlit as st
 import time
 from app.data.db import connect_database
 from app.data.datasets import *
-
-st.set_page_config(page_title="Data Science Dashboard", layout="wide")
-st.title("Data Science Dashboard")
-
-conn = connect_database()
-cursor = conn.cursor()
 
 # Show warning if user is not logged in
 if not st.session_state.logged_in:
@@ -18,136 +13,250 @@ if not st.session_state.logged_in:
         st.switch_page("Home.py")
     st.stop()
 
-# Show logout button in sidebar only when user is logged in
-with st.sidebar:
-    if st.session_state.logged_in:
-        if st.button("Log out"):
-            st.session_state.logged_in = False
-            st.session_state.username = ""
-            st.info("You have been logged out")
+st.set_page_config(page_title="Data Science Dashboard", layout="wide")
+st.title("Data Science Dashboard")
+
+conn = connect_database()
+cursor = conn.cursor()
+
+dashboard, chatbot = st.tabs(["Dashboard", "AI Chatbot"])
+
+with dashboard:
+    # ---------- READ dataset metrics: Total Datasets / Records / File Size ----------
+    key1, key2, key3 = st.columns(3)
+
+    with key1:
+        cursor.execute("SELECT COUNT(*) FROM datasets_metadata")
+        count = cursor.fetchone()
+        st.text("Total datasets")
+        st.header(count[0])
+
+    with key2:
+        cursor.execute(
+            "SELECT SUM(record_count) FROM datasets_metadata")
+        total_record_count = cursor.fetchone()
+        st.text("Total Record Count")
+        st.header(f"{total_record_count[0]:,}")
+
+    with key3:
+        cursor.execute("SELECT SUM(file_size_mb) FROM datasets_metadata")
+        total_file_size = cursor.fetchone()
+        st.text("Total File Size")
+        st.header(f"{total_file_size[0] / 1024:.2f} GB")
+
+    st.divider()
+
+    # ---------- READ stats: Dataset Types / Sources ----------
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.subheader("Dataset Types")
+        st.bar_chart(get_dataset_by_category_count(conn), x="category", y="count")
+
+    with col2:
+        st.subheader("Dataset Sources")
+        st.bar_chart(get_dataset_by_source(conn), x="source", y="count")
+
+    with st.expander("See the full raw data"):
+        datasets = get_all_datasets(conn)
+        st.dataframe(datasets, width='stretch')
+
+    st.divider()
+
+    # ---------- Tabs: Create / Update / Delete ----------
+    tab_create, tab_update, tab_update_2, tab_delete = st.tabs(
+        ["Log New Dataset", "Update Record Count", "Update Last Updated", "Delete Dataset"])
+
+    # Get the min and max range for ID lookup
+    cursor.execute("SELECT MIN(id), MAX(id) FROM datasets_metadata")
+    min_id, max_id = cursor.fetchone()
+
+    # ---------- CREATE new dataset ----------
+    with tab_create:
+        st.subheader("Log a New Dataset")
+        with st.form("new_dataset"):
+            # Form inputs
+            dataset_name = st.text_input("Enter dataset name")
+            category = st.selectbox("Category", [
+                                    "Cloud Logs", "Endpoint Data", "Malware Samples",
+                                    "Network Logs", "Threat Intelligence", "User Activity"])
+            source = st.selectbox("Source", [
+                                "External", "Internal", "Open-Source",
+                                "Research Group", "Vendor A", "Vendor B"])
+            last_updated = st.date_input("Enter last updated")
+            record_count = st.number_input("Enter record count", 1)
+            file_size_mb = st.number_input("Enter file size in MB")
+
+            # Form submit button
+            i_submitted = st.form_submit_button("Submit New Dataset")
+
+        # When form is submitted
+        if i_submitted and dataset_name:
+            insert_dataset(conn, dataset_name, category, source, last_updated, record_count, file_size_mb)
+            st.success("✓ Dataset added successfully!")
             time.sleep(1)
-            st.switch_page("Home.py")
+            st.rerun()
 
-# ---------- READ dataset metrics: Total Datasets / Records / File Size ----------
-key1, key2, key3 = st.columns(3)
+    # ---------- UPDATE dataset attributes ----------
+    with tab_update:
+        st.subheader("Change Dataset Record Count")
+        with st.form("update_record_count"):
+            dataset_id = st.number_input("Enter dataset ID", min_id, max_id)
+            new_record_count = st.number_input("Enter updated record count", 1)
 
-with key1:
-    cursor.execute("SELECT COUNT(*) FROM datasets_metadata")
-    count = cursor.fetchone()
-    st.text("Total datasets")
-    st.header(count[0])
+            u_submitted = st.form_submit_button("Update Record Count")
 
-with key2:
-    cursor.execute(
-        "SELECT SUM(record_count) FROM datasets_metadata")
-    total_record_count = cursor.fetchone()
-    st.text("Total Record Count")
-    st.header(f"{total_record_count[0]:,}")
+        # When form is submitted
+        if u_submitted and dataset_id:
+            update_dataset_record_count(conn, dataset_id, new_record_count)
+            st.success("✓ Dataset updated successfully!")
+            time.sleep(1)
+            st.rerun()
 
-with key3:
-    cursor.execute("SELECT SUM(file_size_mb) FROM datasets_metadata")
-    total_file_size = cursor.fetchone()
-    st.text("Total File Size")
-    st.header(f"{total_file_size[0] / 1024:.2f} GB")
+    with tab_update_2:
+        st.subheader("Change Dataset Last Updated Date")
+        with st.form("update_last_updated"):
+            dataset_id_2 = st.number_input("Enter dataset ID", min_id, max_id)
+            new_date = st.date_input("Enter last updated")
 
-st.divider()
+            u2_submitted = st.form_submit_button("Update Last Updated Date")
 
-# ---------- READ stats: Dataset Types / Sources ----------
-col1, col2 = st.columns(2)
+        # When form is submitted
+        if u2_submitted and dataset_id_2:
+            update_dataset_last_updated(conn, dataset_id_2, new_date)
+            st.success("✓ Dataset updated successfully!")
+            time.sleep(1)
+            st.rerun()
 
-with col1:
-    st.subheader("Dataset Types")
-    st.bar_chart(get_dataset_by_category_count(conn), x="category", y="count")
+    # ---------- DELETE dataset ----------
+    with tab_delete:
+        st.subheader("Remove Dataset from Database")
+        st.warning("Record deletion requires careful consideration.")
+        with st.form("delete_dataset"):
+            dataset_id_3 = st.number_input("Enter dataset ID", min_id, max_id)
 
-with col2:
-    st.subheader("Dataset Sources")
-    st.bar_chart(get_dataset_by_source(conn), x="source", y="count")
+            d_submitted = st.form_submit_button("Delete Dataset")
 
-with st.expander("See the full raw data"):
-    datasets = get_all_datasets(conn)
-    st.dataframe(datasets, width='stretch')
+        # When form is submitted
+        if d_submitted and dataset_id_3:
+            rows_affected = delete_dataset(conn, dataset_id_3)
+            st.success(f"✓ {rows_affected} row/s deleted successfully!")
+            time.sleep(1)
+            st.rerun()
 
-st.divider()
+    conn.close()
 
-# ---------- Tabs: Create / Update / Delete ----------
-tab_create, tab_update, tab_update_2, tab_delete = st.tabs(
-    ["Log New Dataset", "Update Record Count", "Update Last Updated", "Delete Dataset"])
+with chatbot:
+    # Initialize OpenAI client
+    client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
-# Get the min and max range for ID lookup
-cursor.execute("SELECT MIN(id), MAX(id) FROM datasets_metadata")
-min_id, max_id = cursor.fetchone()
+    # Permanent system prompt
+    SYSTEM_PROMPT = (
+        "You are an expert data science assistant with deep knowledge "
+        "in statistics, machine learning, data analysis, and visualization."
+    )
 
-# ---------- CREATE new dataset ----------
-with tab_create:
-    st.subheader("Log a New Dataset")
-    with st.form("new_dataset"):
-        # Form inputs
-        dataset_name = st.text_input("Enter dataset name")
-        category = st.selectbox("Category", [
-                                "Cloud Logs", "Endpoint Data", "Malware Samples",
-                                "Network Logs", "Threat Intelligence", "User Activity"])
-        source = st.selectbox("Source", [
-                              "External", "Internal", "Open-Source",
-                              "Research Group", "Vendor A", "Vendor B"])
-        last_updated = st.date_input("Enter last updated")
-        record_count = st.number_input("Enter record count", 1)
-        file_size_mb = st.number_input("Enter file size in MB")
+    # Title
+    st.subheader("💬 ChatGPT - OpenAI API")
+    st.caption("Powered by GPT-4.1 mini")
 
-        # Form submit button
-        i_submitted = st.form_submit_button("Submit New Dataset")
+    # Initialize session state with the system message
+    if 'messages' not in st.session_state:
+        st.session_state.messages = [
+            {"role": "system", "content": SYSTEM_PROMPT}
+        ]
 
-    # When form is submitted
-    if i_submitted and dataset_name:
-        insert_dataset(conn, dataset_name, category, source, last_updated, record_count, file_size_mb)
-        st.success("✓ Incident added successfully!")
-        time.sleep(1)
-        st.rerun()
+    # Sidebar with controls
+    with st.sidebar:
+        with st.expander("⚙️ Chat Settings", expanded=False):
 
-# ---------- UPDATE dataset attributes ----------
-with tab_update:
-    st.subheader("Change Dataset Record Count")
-    with st.form("update_record_count"):
-        dataset_id = st.number_input("Enter dataset ID", min_id, max_id)
-        new_record_count = st.number_input("Enter updated record count", 1)
+            # Display message count (excluding system message)
+            message_count = len(
+                [m for m in st.session_state.messages if m["role"] != "system"]
+            )
+            st.metric("Messages", message_count)
 
-        u_submitted = st.form_submit_button("Update Record Count")
+            # Clear chat button
+            if st.button("🗑️ Clear Chat", use_container_width=True):
+                st.session_state.messages = [
+                    {"role": "system", "content": SYSTEM_PROMPT}
+                ]
+                st.rerun()
 
-    # When form is submitted
-    if u_submitted and dataset_id:
-        update_dataset_record_count(conn, dataset_id, new_record_count)
-        st.success("✓ Dataset updated successfully!")
-        time.sleep(1)
-        st.rerun()
+            # Model selection
+            model = st.selectbox(
+                "Model",
+                ["gpt-4.1-mini", "gpt-4.1"],
+                index=0
+            )
 
-with tab_update_2:
-    st.subheader("Change Dataset Last Updated Date")
-    with st.form("update_last_updated"):
-        dataset_id_2 = st.number_input("Enter dataset ID", min_id, max_id)
-        new_date = st.date_input("Enter last updated")
+            # Temperature slider
+            temperature = st.slider(
+                "Temperature",
+                min_value=0.0,
+                max_value=2.0,
+                value=1.0,
+                step=0.1,
+                help="Higher values make output more random"
+            )
+        
+        st.divider()
+        
+        # Show logout button in sidebar only when user is logged in
+        if st.session_state.logged_in:
+            if st.button("Log out"):
+                st.session_state.logged_in = False
+                st.session_state.username = ""
+                st.info("You have been logged out")
+                time.sleep(1)
+                st.switch_page("Home.py")
 
-        u2_submitted = st.form_submit_button("Update Last Updated Date")
 
-    # When form is submitted
-    if u2_submitted and dataset_id_2:
-        update_dataset_last_updated(conn, dataset_id_2, new_date)
-        st.success("✓ Dataset updated successfully!")
-        time.sleep(1)
-        st.rerun()
+    # Display all previous non-system messages
+    for message in st.session_state.messages:
+        if message["role"] == "system":
+            continue
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
-# ---------- DELETE dataset ----------
-with tab_delete:
-    st.subheader("Remove Dataset from Database")
-    st.warning("Record deletion requires careful consideration.")
-    with st.form("delete_dataset"):
-        dataset_id_3 = st.number_input("Enter dataset ID", min_id, max_id)
+    # Get user input
+    prompt = st.chat_input("Say something...")
 
-        d_submitted = st.form_submit_button("Delete Dataset")
+    if prompt:
+        # Display user message
+        with st.chat_message("user"):
+            st.markdown(prompt)
 
-    # When form is submitted
-    if d_submitted and dataset_id_3:
-        rows_affected = delete_dataset(conn, dataset_id_3)
-        st.success(f"✓ {rows_affected} row/s deleted successfully!")
-        time.sleep(1)
-        st.rerun()
+        # Save user message
+        st.session_state.messages.append({
+            "role": "user",
+            "content": prompt
+        })
 
-conn.close()
+        # Call OpenAI API with streaming
+        with st.spinner("Thinking..."):
+            completion = client.chat.completions.create(
+                model=model,
+                messages=st.session_state.messages,
+                temperature=temperature,
+                stream=True
+            )
+
+        # Display streaming response
+        with st.chat_message("assistant"):
+            container = st.empty()
+            full_reply = ""
+
+            for chunk in completion:
+                delta = chunk.choices[0].delta
+                if delta.content:
+                    full_reply += delta.content
+                    container.markdown(full_reply + "▌")
+
+            container.markdown(full_reply)
+
+        # Save assistant response
+        st.session_state.messages.append({
+            "role": "assistant",
+            "content": full_reply
+        })
