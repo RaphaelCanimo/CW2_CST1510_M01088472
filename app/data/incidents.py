@@ -80,7 +80,7 @@ def get_high_severity_by_status(conn):
     return df
 
 
-def get_incident_types_with_many_cases(conn, min_count=5):
+def get_incident_types_with_many_cases(conn, min_count=15):
     """
     Find incident types with more than min_count cases.
     Uses: SELECT, FROM, GROUP BY, HAVING, ORDER BY

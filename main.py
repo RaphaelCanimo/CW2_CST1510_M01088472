@@ -1,9 +1,16 @@
+import pandas as pd
+from pathlib import Path
 from app.data.db import connect_database, load_all_csv_data
 from app.data.schema import create_all_tables
 from app.services.user_service import register_user, login_user, migrate_users_from_file
-from app.data.incidents import insert_incident, get_all_incidents, get_incidents_by_type_count, get_high_severity_by_status, update_incident_status, delete_incident
-import pandas as pd
-from pathlib import Path
+from app.data.incidents import (
+    insert_incident,
+    get_all_incidents,
+    get_incidents_by_type_count,
+    get_high_severity_by_status,
+    update_incident_status,
+    delete_incident
+)
 
 DATA_DIR = Path("DATA")
 DB_PATH = DATA_DIR / "intelligence_platform.db"

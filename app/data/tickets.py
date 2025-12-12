@@ -54,6 +54,45 @@ def get_all_tickets(conn):
     conn.close()
     return df
 
+def get_tickets_by_priority(conn):
+    """
+    Get tickets by priority
+    """
+    query = """
+    SELECT priority, COUNT(*) as count
+    FROM it_tickets
+    GROUP BY priority
+    ORDER BY count DESC
+    """
+    df = pd.read_sql_query(query, conn)
+    return df
+
+def get_tickets_by_status(conn):
+    """
+    Get tickets by status
+    """
+    query = """
+    SELECT status, COUNT(*) as count
+    FROM it_tickets
+    GROUP BY status
+    ORDER BY count DESC
+    """
+    df = pd.read_sql_query(query, conn)
+    return df
+
+def get_tickets_by_category(conn):
+    """
+    Get tickets by category
+    """
+    query = """
+    SELECT category, COUNT(*) as count
+    FROM it_tickets
+    GROUP BY category
+    ORDER BY count DESC
+    """
+    df = pd.read_sql_query(query, conn)
+    return df
+
 
 def update_ticket_status(conn, ticket_id, new_status):
     """

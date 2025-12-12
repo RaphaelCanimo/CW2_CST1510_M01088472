@@ -2,7 +2,7 @@ import pandas as pd
 from app.data.db import connect_database
 
 
-def insert_dataset(conn, dataset_name, category, source, last_updated, record_count, file_size_mb, created_at):
+def insert_dataset(conn, dataset_name, category, source, last_updated, record_count, file_size_mb):
     """
     Insert a new dataset into the database.
 
@@ -22,9 +22,9 @@ def insert_dataset(conn, dataset_name, category, source, last_updated, record_co
 
     cursor.execute("""
         INSERT INTO datasets_metadata 
-        (dataset_name, category, source, last_updated, record_count, file_size_mb, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    """, (dataset_name, category, source, last_updated, record_count, file_size_mb, created_at))
+        (dataset_name, category, source, last_updated, record_count, file_size_mb)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (dataset_name, category, source, last_updated, record_count, file_size_mb))
 
     conn.commit()
     dataset_id = cursor.lastrowid
@@ -42,10 +42,38 @@ def get_all_datasets(conn):
     """
     conn = connect_database()
     df = pd.read_sql_query(
-        "SELECT * FROM datasets_metadata ORDER BY id DESC",
+        "SELECT * FROM datasets_metadata",
         conn
     )
     conn.close()
+    return df
+
+def get_dataset_by_category_count(conn):
+    """
+    Count datasets by category.
+    Uses: SELECT, FROM, GROUP BY, ORDER BY
+    """
+    query = """
+    SELECT category, COUNT(*) as count
+    FROM datasets_metadata
+    GROUP BY category
+    ORDER BY count DESC
+    """
+    df = pd.read_sql_query(query, conn)
+    return df
+
+def get_dataset_by_source(conn):
+    """
+    Count datasets by source.
+    Uses: SELECT, FROM, GROUP BY, ORDER BY
+    """
+    query = """
+    SELECT source, COUNT(*) as count
+    FROM datasets_metadata
+    GROUP BY source
+    ORDER BY count DESC
+    """
+    df = pd.read_sql_query(query, conn)
     return df
 
 
