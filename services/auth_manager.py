@@ -1,7 +1,6 @@
 from typing import Optional
 from models.user import User
 import bcrypt
-from pathlib import Path
 
 
 class AuthManager:

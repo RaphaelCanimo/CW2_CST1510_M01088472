@@ -20,5 +20,5 @@ class ITTicket:
     def __str__(self) -> str:
         return (
             f"Ticket {self.__id}: {self.__title} "
-            f"[{self.__priority}] – {self.__status} (assigned to: {self.___assigned_to}"
+            f"[{self.__priority}] - {self.__status} (assigned to: {self.__assigned_to})"
         )

@@ -1,7 +1,5 @@
 import sqlite3
-from typing import Any, Iterable, Optional, List
-from pathlib import Path
-import pandas as pd
+from typing import Any, Iterable
 
 
 class DatabaseManager:
@@ -46,9 +44,3 @@ class DatabaseManager:
         cur = self._connection.cursor()
         cur.execute(sql, tuple(params))
         return cur.fetchall()
-
-    def fetch_dataframe(self, sql: str, params: Iterable[Any] = ()) -> pd.DataFrame:
-        """Fetch results as a pandas DataFrame."""
-        if self._connection is None:
-            self.connect()
-        return pd.read_sql_query(sql, self._connection, params=params)

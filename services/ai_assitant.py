@@ -16,23 +16,16 @@ class AIAssistant:
         self._system_prompt = prompt
 
     def get_system_prompt(self) -> str:
-        """Get the current system prompt."""
         return self._system_prompt
 
     def send_message(self, user_message: str) -> str:
         """
         Send a message and get a response.
         Replace this body with your real API call to OpenAI.
-        
-        Args:
-            user_message: The user's message
-            
-        Returns:
-            str: The AI's response
         """
         self._history.append({"role": "user", "content": user_message})
 
-        # Fake response for now - replace with actual OpenAI API call
+        # Fake response for now:
         response = f"[AI reply to]: {user_message[:50]}"
         self._history.append({"role": "assistant", "content": response})
 
@@ -45,7 +38,3 @@ class AIAssistant:
     def clear_history(self):
         """Clear the conversation history."""
         self._history.clear()
-
-    def get_message_count(self) -> int:
-        """Get the number of messages in history (excluding system message)."""
-        return len(self._history)

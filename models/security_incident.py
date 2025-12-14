@@ -32,3 +32,6 @@ class SecurityIncident:
             "critical": 4,
         }
         return mapping.get(self.__severity.lower(), 0)
+    
+    def __str__(self) -> str:
+        return f"Incident {self.__id} [{self.__severity.upper()}] {self.__incident_type}"
